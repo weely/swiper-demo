@@ -20,7 +20,7 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <script>
-      var viewport = document.querySelector('meta[name=viewport]');
+      const viewport = document.querySelector('meta[name=viewport]');
       // var viewport = document.createElement('meta');
       // viewport.setAttribute('name', 'viewport');
       if (window.devicePixelRatio === 3) {
@@ -31,9 +31,12 @@
         viewport.setAttribute('conetnt', 'width=device-width,initial-scale=1, maximum-scale=1,user-scalable=0, viewport-fit=cover')
       }
       // document.getElementsByTagName('head')[0].appendChild(viewport)
-      var docEl = document.documentElement;
-      var fontSize = 12 * (docEl.clientWidth / 320) + 'px';
-      docEl.style.fontSize = fontSize;
+      if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        const docEl = document.documentElement;
+        const fontSize = 12 * (docEl.clientWidth / 320) + 'px';
+        docEl.style.fontSize = fontSize;
+        console.log('---', window.devicePixelRatio, docEl.clientWidth)
+      }
     </script>
   </body>
 </html>

@@ -14,11 +14,11 @@
       </div>
     </div>
     <!-- 如果需要分页器 -->
-    <div class="swiper-pagination-container">
+    <div class="swiper-pagination-container" @click.stop >
       <span v-show="showHF">
         <div class="pagination-container">{{ pageNo }}/{{ total }}</div>
-        <div id="thumbs">
-          <div class="swiper-wrapper swiper-slides" @click.stop>
+        <div id="thumbs" :style="{ width: `${total * 1.45}rem`, maxWidth: '80%' }">
+          <div class="swiper-wrapper swiper-slides" >
             <div v-for="index in swiperOptions.length" :key="index" class="swiper-slide swiper-slide">
               {{ index }}
             </div>
@@ -45,19 +45,19 @@ export default {
         { value: 'gw01', src: require('@/assets/device-2.png') },
         { value: 'gw01', src: require('@/assets/device-2.png') },
         { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        // { value: 'gw01', src: require('@/assets/device-2.png') },
       ],
-      showHF: true
+      showHF: false
     }
   },
   computed: {
@@ -132,6 +132,7 @@ export default {
   display: flex;
   flex-direction: column;
   background: #777777;
+  overflow-x: hidden;
 }
 
 .reback-btn {
@@ -188,21 +189,19 @@ export default {
 
 #thumbs {
   height: 100%;
-  width: 80%;
+  // width: 1.45rem;
   margin: auto auto;
   padding-bottom: 1rem;
   box-sizing: border-box;
 
   .swiper-slides {
     align-items: center;
-    width: 1.45rem;
   }
 
   .swiper-slide {
     display: block;
     width: 1.45rem;
     height: 2.05rem;
-    // padding: 0.25rem;
     background: #FFFFFF;
     border: 0.5px solid rgba(60,60,60,1);
     text-align: center;
