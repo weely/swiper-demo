@@ -45,10 +45,10 @@ export default {
         { value: 'gw01', src: require('@/assets/device-2.png') },
         { value: 'gw01', src: require('@/assets/device-2.png') },
         { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
+        { value: 'gw01', src: require('@/assets/device-2.png') },
+        { value: 'gw01', src: require('@/assets/device-2.png') },
+        { value: 'gw01', src: require('@/assets/device-2.png') },
+        { value: 'gw01', src: require('@/assets/device-2.png') },
         // { value: 'gw01', src: require('@/assets/device-2.png') },
         // { value: 'gw01', src: require('@/assets/device-2.png') },
         // { value: 'gw01', src: require('@/assets/device-2.png') },
@@ -97,11 +97,6 @@ export default {
       slidesPerView: 1,
       spaceBetween: 20,
       touchMoveStopPropagation: true,
-      // 如果需要分页器
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
       on: {
         slideChange: function(){
           $vue.pageNo = this.activeIndex + 1
