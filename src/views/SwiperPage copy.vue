@@ -6,7 +6,7 @@
         <section class="header-title">4G07产品手册</section>
       </span>
     </header>
-    <div id="main-swiper" class="swiper-container">
+    <div class="swiper-container">
       <div class="swiper-wrapper">
         <div v-for="(item, index) in swiperOptions" :key="index" class="swiper-slide">
           <img :src="item.src" />
@@ -17,13 +17,7 @@
     <div class="swiper-pagination-container">
       <span v-show="showHF">
         <div class="pagination-container">{{ pageNo }}/{{ total }}</div>
-        <div id="thumbs">
-          <div class="swiper-wrapper swiper-slides" @click.stop>
-            <div v-for="index in swiperOptions.length" :key="index" class="swiper-slide swiper-slide">
-              {{ index }}
-            </div>
-          </div>
-        </div>
+        <div class="swiper-pagination" @click.stop></div>
       </span>
     </div>
   </div>
@@ -40,24 +34,9 @@ export default {
       swiperOptions: [
         { value: '4g03', src: require('@/assets/device-2.png') },
         { value: 'gw07', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
+        { value: 'gw01', src: require('@/assets/device-2.png') }
       ],
-      showHF: true
+      showHF: false
     }
   },
   computed: {
@@ -66,32 +45,9 @@ export default {
     }
   },
   mounted() {
-    let mainSwiper;
     const $vue = this
     // eslint-disable-next-line
-    const thumbsSwiper = new Swiper ('#thumbs', {
-      loop: false, // 循环模式选项
-      // slidesPerView: $vue.total,
-      spaceBetween: 4,
-      watchSlidesVisibility: true,
-      touchMoveStopPropagation: true,
-      preventClicksPropagation: true,
-      preventClicks: true,
-      slideToClickedSlide: true,
-      width: 24,
-      // 如果需要分页器
-      on: {
-        transitionEnd: function(){
-          $vue.pageNo = this.activeIndex + 1
-          mainSwiper && mainSwiper.slideTo(this.activeIndex)
-        },
-        click: function() {
-          $vue.pageNo = this.activeIndex + 1
-          mainSwiper && mainSwiper.slideTo(this.activeIndex)
-        }
-      }
-    });
-    mainSwiper = new Swiper ('#main-swiper', {
+    const mySwiper = new Swiper ('.swiper-container', {
       direction: 'horizontal', // 垂直切换选项
       loop: false, // 循环模式选项
       slidesPerView: 1,
@@ -103,14 +59,11 @@ export default {
         clickable: true,
       },
       on: {
-        slideChange: function(){
+        slideChangeTransitionStart: function(){
           $vue.pageNo = this.activeIndex + 1
         },
       },
-      controller: {
-        control: thumbsSwiper,
-      }
-    });
+    })
   },
   methods: {
     toggleClick () {
@@ -184,33 +137,32 @@ export default {
       height: 100%;
     }
   }
+
+  // .swiper-slide.active {
+  //   box-shadow: 0 0 0.75rem 0 rgba(0,0,0,0.8);
+  // }
 }
 
-#thumbs {
+
+.swiper-pagination.swiper-pagination-bullets {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   height: 100%;
-  width: 80%;
-  margin: auto auto;
-  padding-bottom: 1rem;
-  box-sizing: border-box;
+}
 
-  .swiper-slides {
-    align-items: center;
-    width: 1.45rem;
-  }
+.swiper-pagination-bullet {
+  display: block;
+  width: 1.45rem;
+  height: 2.05rem;
+  // padding: 0.25rem;
+  background: #FFFFFF;
+  border: 0.5px solid rgba(60,60,60,1);
+}
 
-  .swiper-slide {
-    display: block;
-    width: 1.45rem;
-    height: 2.05rem;
-    // padding: 0.25rem;
-    background: #FFFFFF;
-    border: 0.5px solid rgba(60,60,60,1);
-    text-align: center;
-  }
-  .swiper-slide.swiper-slide-active {
-    transform: scale(1.65);
-    z-index: 2;
-  }
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  transform: scale(1.65);
 }
 
 .swiper-pagination-container {
