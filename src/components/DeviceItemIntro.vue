@@ -43,7 +43,13 @@ export default {
   }
 
   img.device-intro {
+    width: 100%;
     height: 12.5rem;
+  }
+
+  a {
+    color: #000000;
+    text-decoration: none;
   }
 
   .btn {

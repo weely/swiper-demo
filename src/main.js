@@ -4,7 +4,7 @@ import router from './router'
 import '@/styles/app.scss'
 import VueLazyload from 'vue-lazyload'
 
-const loadimage = require('./assets/intro.png')
+const loadimage = require('./assets/page.png')
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   loading: loadimage,

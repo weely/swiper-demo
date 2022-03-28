@@ -5,18 +5,13 @@
       <section class="main-content">
         <div class="device-list">
           <device-item-intro v-for="deviceType in deviceGroup1" :key="deviceType" :options="deviceIntros[deviceType]" class="dev-item"></device-item-intro>
+          <section class="dev-item"></section>
         </div>
-        <div class="grap-line"></div>
+        <!-- <div class="grap-line"></div> -->
 
-        <div class="device-list">
+        <!-- <div class="device-list">
           <device-item-intro v-for="deviceType in deviceGroup2" :key="deviceType" :options="deviceIntros[deviceType]" class="dev-item"></device-item-intro>
-        </div>
-        <div class="grap-line"></div>
-
-        <div class="device-list">
-          <device-item-intro v-for="deviceType in deviceGroup3" :key="deviceType" :options="deviceIntros[deviceType]" class="dev-item"></device-item-intro>
-          <!-- <section class="device-item"></section> -->
-        </div>
+        </div> -->
       </section>
     </div>
   </section>
@@ -33,15 +28,16 @@ export default {
   },
   data() {
     return {
-      deviceGroup1: ['4g01','4g02', '4g03'],
-      deviceGroup2: ['gw01','gw02', 'gw03'],
-      deviceGroup3: ['4g05'],
+      deviceGroup1: ['4G07', '4G01'],
     }
   },
   computed: {
     deviceIntros() {
       return Object.freeze(deviceIntros)
     }
+  },
+  mounted() {
+    document.title = '谷米产品手册'
   }
 }
 </script>
@@ -59,8 +55,8 @@ export default {
 
 .main-header {
   font-size: 1.0625rem;
-  background: #000000;
-  color: #FFFFFF;
+  background: #FFFFFF;
+  color: #000000;
   font-weight: 400;
   height: 5.625rem;
   padding-top: 3.5rem;

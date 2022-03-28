@@ -1,10 +1,12 @@
 <template>
   <div class="swiper-widget" @click.stop="toggleClick">
-    <header class="swiper-header">
-      <span v-show="showHF">
-        <section class="reback-btn"><span @click="onReback"><img class="back-icon" src="../assets/back.png"></span>返回列表</section>
-        <section class="header-title">{{ deviceType.toLocaleUpperCase() }}产品手册</section>
-      </span>
+    <header class="swiper-header" @click.stop>
+      <div v-show="showHF">
+        <section class="header-title header-item">{{ deviceType.toLocaleUpperCase() }}</section>
+        <section class="reback-btn header-item">
+          <div @click.stop="onReback"><img class="back-icon" src="../assets/back.png">返回</div>
+        </section>
+      </div>
     </header>
 
     <p v-if="!deviceType" class="error-tag">提示：设备类型为找到，返回 <i @click="onReback" class="link">首页</i></p>
@@ -15,19 +17,18 @@
       <div id="main-swiper" class="swiper-container">
         <div class="swiper-wrapper">
           <div v-for="(item, index) in swiperOptions" :key="index" class="swiper-slide">
-            <!-- <img :src="getImgSrc(item.imgPath)" /> -->
             <img v-lazy="getImgSrc(item.imgPath)" />
           </div>
         </div>
       </div>
       <!-- 如果需要分页器 -->
-      <div class="swiper-pagination-container" @click.stop >
+      <div class="swiper-pagination-container" @click.stop>
         <span v-show="showHF">
           <div class="pagination-container">{{ pageNo }}/{{ total }}</div>
           <div id="thumbs" :style="{ width: `${total * 1.45}rem`, maxWidth: '80%' }">
             <div class="swiper-wrapper swiper-slides" >
-              <div v-for="index in swiperOptions.length" :key="index" class="swiper-slide swiper-slide">
-                {{ index }}
+              <div v-for="(item, index) in swiperOptions" :key="index" class="swiper-slide">
+                <img v-lazy="getImgSrc(item.imgPath)" />
               </div>
             </div>
           </div>
@@ -46,7 +47,7 @@ export default {
   data(){
     return {
       deviceType: '',
-      showHF: false,
+      showHF: true,
       pageNo: 1,
     }
   },
@@ -62,8 +63,10 @@ export default {
     this.deviceType = this.$route.query?.deviceType || ''
   },
   mounted() {
+    document.title = this.deviceType + '产品手册'
     let mainSwiper;
     const $vue = this
+    const thumbWidth = document.documentElement > 736 ? 24 : 20
     // eslint-disable-next-line
     const thumbsSwiper = new Swiper ('#thumbs', {
       loop: false, // 循环模式选项
@@ -74,9 +77,12 @@ export default {
       preventClicksPropagation: true,
       preventClicks: true,
       slideToClickedSlide: true,
-      width: 24,
+      width: thumbWidth,
       // 如果需要分页器
       on: {
+        slideChange: function(){
+          $vue.pageNo = this.activeIndex + 1
+        },
         transitionEnd: function(){
           $vue.pageNo = this.activeIndex + 1
           mainSwiper && mainSwiper.slideTo(this.activeIndex)
@@ -129,29 +135,21 @@ export default {
   overflow-x: hidden;
 }
 
-.error-tag {
-  width: 100%;
-  background: #FFFFFF;
-  color: #666666;
-  font-size: 1rem;
-  font-weight: 600;
-  height: 60%;
-  padding: 20px;
-
-  .link {
-    cursor: pointer;
-    text-decoration:underline;
-  }
+.header-item {
+  line-height: 1.5rem;
+  font-size: 1.0625rem;
+  color: #FFFFFF;
+  font-weight: 400;
+  margin: 1.5rem 0 0.5rem;
 }
 
 .reback-btn {
   display: flex;
   align-items: center;
-  font-size: 1.0625rem;
-  color: #FFFFFF;
-  font-weight: 400;
-  line-height: 1.5rem;
-  margin: 2rem 0 1rem;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+
   .back-icon {
     width: 0.75rem;
     height: 1.5rem;
@@ -162,34 +160,40 @@ export default {
 }
 
 .header-title {
-  margin: 0;
-  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   text-align: center;
-  font-size: 1.0625rem;
-  color: #FFFFFF;
-  font-weight: 400;
 }
 
 .swiper-header, .swiper-pagination-container {
   background: #777777;
   width: 100%;
-  height: 6.875rem;
+  position: relative;
 }
 
-.swiper-container {
+.swiper-header, .swiper-pagination-container {
+  height: 4.5rem;
+}
+
+#main-swiper.swiper-container {
   width: 100%;
   flex: 1;
   background: #777777;
   padding: 1rem 0;
 
   .swiper-slide {
+    width: 100vw;
     height: 100%;
     position: relative;
     z-index: 1;
     box-shadow: 0 0 0.75rem 0 rgba(0,0,0,0.8);
+    background: #FFFFFF;
+    text-align: center;
 
     img{
-      width: 100%;
+      max-width: 100%;
       height: 100%;
     }
   }
@@ -197,7 +201,6 @@ export default {
 
 #thumbs {
   height: 100%;
-  // width: 1.45rem;
   margin: auto auto;
   padding-bottom: 1rem;
   box-sizing: border-box;
@@ -213,6 +216,11 @@ export default {
     background: #FFFFFF;
     border: 0.5px solid rgba(60,60,60,1);
     text-align: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .swiper-slide.swiper-slide-active {
     transform: scale(1.65);
@@ -238,13 +246,52 @@ export default {
   z-index: 1000;
 }
 
-@media screen and ( max-height: 736px ) {
-  .swiper-header, .swiper-pagination-container {
-    height: 5.5rem;
+.error-tag {
+  width: 100%;
+  background: #FFFFFF;
+  color: #666666;
+  font-size: 1rem;
+  font-weight: 600;
+  height: 60%;
+  padding: 20px;
+
+  .link {
+    cursor: pointer;
+    text-decoration:underline;
+  }
+}
+
+@media screen and (max-height: 844px ) {
+  .swiper-header {
+    height: 3.5rem;
+  }
+  .header-item {
+    margin: 1rem 0 0.5rem;
+  }
+}
+
+@media screen and (max-height: 736px ) {
+  .swiper-header {
+    height: 3rem;
+  }
+  .swiper-pagination-container {
+    height: 3.5rem;
   }
 
-  .reback-btn {
-    margin: 1.25rem 0 0.75rem;
+  .header-item {
+    margin: 1rem 0 0.25rem;
+  }
+
+  #main-swiper.swiper-container {
+    padding: 0.5rem 0 1rem;
+  }
+
+  #thumbs {
+    padding-bottom: 0.5rem;
+
+    .swiper-slide {
+      height: 1.75rem;
+    }
   }
 }
 </style>

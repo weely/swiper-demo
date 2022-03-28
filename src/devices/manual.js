@@ -1,16 +1,6 @@
-// const manuals = modulesFiles.keys().reduce((modules, modulePath) => {
-//   const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, '$1')
-//   modules[moduleName] = {
-//     // img: require('./manuals' + `${modulePath}`.replace(/^\./, '')),
-//     imgPath: 'devices/manuals' + `${modulePath}`.replace(/^\./, ''),
-//     deviceType: moduleName.split('/')[0],
-//     value: moduleName
-//   }
-//   return modules
-// }, {})
 
 const deviceManuals = {}
-require.context('./manuals', true, /\.png$/).keys().forEach((modulePath) => {
+require.context('./manuals', true, /\.(png|jpg)$/).keys().forEach((modulePath) => {
   const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, '$1')
   const deviceType = moduleName.split('/')[0]
 
@@ -24,6 +14,11 @@ require.context('./manuals', true, /\.png$/).keys().forEach((modulePath) => {
   deviceManuals[deviceType].push(pageItem)
 })
 
+function getFileNum(pathValue){
+  return parseInt(pathValue.split('/')[1]) || 0
+}
+
 export function getManualByDeviceType(deviceType) {
-  return deviceManuals[deviceType]?.sort((a,b) =>a.value.localeCompare(b.value)) || []
+  window.deviceType = deviceManuals[deviceType]?.sort((a,b) => getFileNum(a.value) - getFileNum(b.value))
+  return deviceManuals[deviceType]?.sort((a,b) => getFileNum(a.value) - getFileNum(b.value)) || []
 }
