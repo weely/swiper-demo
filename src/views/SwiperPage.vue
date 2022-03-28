@@ -3,13 +3,14 @@
     <header class="swiper-header">
       <span v-show="showHF">
         <section class="reback-btn"><span @click="onReback"><img class="back-icon" src="../assets/back.png"></span>返回列表</section>
-        <section class="header-title">4G07产品手册</section>
+        <section class="header-title">{{ deviceType.toLocaleUpperCase() }}产品手册</section>
       </span>
     </header>
     <div id="main-swiper" class="swiper-container">
       <div class="swiper-wrapper">
         <div v-for="(item, index) in swiperOptions" :key="index" class="swiper-slide">
-          <img :src="item.src" />
+          <!-- <img :src="item.src" /> -->
+          <img :src="getImgSrc(item.imgPath)" />
         </div>
       </div>
     </div>
@@ -31,39 +32,36 @@
 
 <script>
 import Swiper from 'swiper'
+import { getManualByDeviceType } from '../devices/manual.js'
 
 export default {
   name: 'SwiperWidget',
   data(){
     return {
+      deviceType: '',
+      showHF: false,
       pageNo: 1,
-      swiperOptions: [
-        { value: '4g03', src: require('@/assets/device-2.png') },
-        { value: 'gw07', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
-        // { value: 'gw01', src: require('@/assets/device-2.png') },
-      ],
-      showHF: false
+      // swiperOptions: [
+      //   { value: '4g03', src: require('@/assets/device-2.png') },
+      //   { value: 'gw07', src: require('@/assets/device-2.png') },
+      //   { value: 'gw01', src: require('@/assets/device-2.png') },
+      //   { value: 'gw01', src: require('@/assets/device-2.png') },
+      //   { value: 'gw01', src: require('@/assets/device-2.png') },
+      //   { value: 'gw01', src: require('@/assets/device-2.png') },
+      //   { value: 'gw01', src: require('@/assets/device-2.png') },
+      // ],
     }
   },
   computed: {
+    swiperOptions() {
+      return getManualByDeviceType(this.deviceType) || []
+    },
     total() {
       return this.swiperOptions.length || 0
     }
+  },
+  created() {
+    this.deviceType = this.$route.query?.deviceType || ''
   },
   mounted() {
     let mainSwiper;
@@ -113,12 +111,15 @@ export default {
     },
     onReback() {
       this.$router.push({ path: '/' })
+    },
+    getImgSrc(path) {
+      return require('@/' + path)
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import 'swiper/swiper.scss';
 
 .swiper-widget {

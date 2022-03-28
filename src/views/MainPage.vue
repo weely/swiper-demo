@@ -2,83 +2,44 @@
   <section class="main-page">
     <header class="main-header">谷米产品手册</header>
     <div class="mc-1">
-    <section class="main-content">
-      <div class="device-list">
-        <section class="device-item">
-          <img src="../assets/device-1.png" class="device-intro">
-          <p>9-90v<p>
-          <p>通用基本款</p>
-          <router-link :to="{ path: '/device-intro', params: { deviceId: '1' } }"><button class="btn">阅读</button></router-link>
-        </section>
-        <section class="device-item">
-          <img src="../assets/device-1.png" class="device-intro">
-          <p>9-90v<p>
-          <p>远程锁车</p>
-          <router-link :to="{ path: '/device-intro', params: { deviceId: '2' } }"><button class="btn">阅读</button></router-link>
-        </section>
-        <section class="device-item">
-          <img src="../assets/device-1.png" class="device-intro">
-          <p>9-90v<p>
-          <p>通用基本款</p>
-          <router-link :to="{ path: '/device-intro', params: { deviceId: '3' } }"><button class="btn">阅读</button></router-link>
-        </section>
-      </div>
+      <section class="main-content">
+        <div class="device-list">
+          <device-item-intro v-for="deviceType in deviceGroup1" :key="deviceType" :options="deviceIntros[deviceType]" class="dev-item"></device-item-intro>
+        </div>
+        <div class="grap-line"></div>
 
-      <div class="grap-line"></div>
+        <div class="device-list">
+          <device-item-intro v-for="deviceType in deviceGroup2" :key="deviceType" :options="deviceIntros[deviceType]" class="dev-item"></device-item-intro>
+        </div>
+        <div class="grap-line"></div>
 
-      <div class="device-list">
-        <section class="device-item">
-          <img src="../assets/device-1.png" class="device-intro">
-          <p>6000mAh<p>
-          <p>强磁免安装</p>
-          <router-link :to="{ path: '/device-intro', params: { deviceId: '3' } }"><button class="btn">阅读</button></router-link>
-        </section>
-        <section class="device-item">
-          <img src="../assets/device-1.png" class="device-intro">
-          <p>6000mAh<p>
-          <p>强磁免安装</p>
-          <router-link :to="{ path: '/device-intro', params: { deviceId: '3' } }"><button class="btn">阅读</button></router-link>
-        </section>
-        <section class="device-item">
-          <img src="../assets/device-1.png" class="device-intro">
-          <p>6000mAh<p>
-          <p>强磁免安装</p>
-          <router-link :to="{ path: '/device-intro', params: { deviceId: '3' } }"><button class="btn">阅读</button></router-link>
-        </section>
-      </div>
-
-      <div class="grap-line"></div>
-
-      <div class="device-list">
-        <section class="device-item">
-          <img src="../assets/device-1.png" class="device-intro">
-          <p>6000mAh<p>
-          <p>强磁免安装</p>
-          <router-link :to="{ path: '/device-intro', params: { deviceId: '3' } }"><button class="btn">阅读</button></router-link>
-        </section>
-        <section class="device-item">
-          <img src="../assets/device-1.png" class="device-intro">
-          <p>6000mAh<p>
-          <p>强磁免安装</p>
-          <router-link :to="{ path: '/device-intro', params: { deviceId: '3' } }"><button class="btn">阅读</button></router-link>
-        </section>
-        <section class="device-item">
-          <img src="../assets/device-1.png" class="device-intro">
-          <p>6000mAh<p>
-          <p>强磁免安装</p>
-          <router-link :to="{ path: '/device-intro', params: { deviceId: '3' } }"><button class="btn">阅读</button></router-link>
-        </section>
-      </div>
-    </section>
+        <div class="device-list">
+          <device-item-intro v-for="deviceType in deviceGroup3" :key="deviceType" :options="deviceIntros[deviceType]" class="dev-item"></device-item-intro>
+          <section class="device-item"></section>
+        </div>
+      </section>
     </div>
   </section>
 </template>
 
 <script>
+import { deviceIntros } from '../devices/intro'
+
 export default {
   name: 'Main',
+  components: {
+    DeviceItemIntro: () => import('../components/DeviceItemIntro')
+  },
   data() {
     return {
+      deviceGroup1: ['4g01','4g02', '4g03'],
+      deviceGroup2: ['gw01','gw02', 'gw03'],
+      deviceGroup3: ['4g05','gw05'],
+    }
+  },
+  computed: {
+    deviceIntros() {
+      return Object.freeze(deviceIntros)
     }
   }
 }
@@ -126,28 +87,8 @@ export default {
   padding: 1.25rem 0;
   justify-content: space-between;
 
-  .device-item {
-    font-size: 0.8125rem;
-    font-weight: 400;
-    color: #000000;
-    line-height: 1.125rem;
-
-    p {
-      margin: 0.125rem auto;
-    }
-
-    img.device-intro {
-      height: 12.5rem;
-    }
-
-    .btn {
-      width: 100%;
-      height: 2.25rem;
-      background: #ffffff;
-      border: 0.5px solid rgba(170,170,170,1);
-      border-radius: 0.3125rem;
-      margin-top: 0.5rem;
-    }
+  .dev-item {
+    width: 32%;
   }
 }
 

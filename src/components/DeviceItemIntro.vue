@@ -1,9 +1,9 @@
 <template>
   <section class="device-item">
-    <img src="../assets/device-1.png" class="device-intro">
-    <p>9-90v<p>
-    <p>远程锁车</p>
-    <router-link :to="{ path: '/device-intro', params: { deviceId: '2' } }"><button class="btn">阅读</button></router-link>
+    <img :src="imgSrc" class="device-intro">
+    <p>{{ options.tag1 }}<p>
+    <p>{{ options.tag2 }}</p>
+    <router-link :to="{ path: '/device-intro', query: { deviceType: options.value } }"><button class="btn">阅读</button></router-link>
   </section>
 </template>
 
@@ -11,16 +11,21 @@
 export default {
   name: 'DeviceItemIntro',
   props: {
-    imgIntro: {
-      type: String,
-      required: true
-    },
-    linkParams: {
-      type: Object,
-      required: true
-    },
     options: {
-      
+      type: Object,
+      required: true,
+      default: () => ({
+        tag1: 'tag1',
+        tag2: 'tag2',
+        img: '',
+        value: ''
+      })
+    }
+  },
+  computed: {
+    imgSrc() {
+      console.log('---', this.options.imgPath, this.options.value)
+      return this.options?.imgPath && require('@/' + this.options.imgPath)
     }
   }
 }
