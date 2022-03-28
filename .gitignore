@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-
+/src/devices/manuals
+/src/devices/intros
 
 # local env files
 .env.local
