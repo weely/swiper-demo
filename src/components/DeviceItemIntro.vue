@@ -24,7 +24,6 @@ export default {
   },
   computed: {
     imgSrc() {
-      console.log('---', this.options.imgPath, this.options.value)
       return this.options?.imgPath && require('@/' + this.options.imgPath)
     }
   }

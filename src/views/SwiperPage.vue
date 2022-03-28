@@ -6,27 +6,33 @@
         <section class="header-title">{{ deviceType.toLocaleUpperCase() }}产品手册</section>
       </span>
     </header>
-    <div id="main-swiper" class="swiper-container">
-      <div class="swiper-wrapper">
-        <div v-for="(item, index) in swiperOptions" :key="index" class="swiper-slide">
-          <!-- <img :src="item.src" /> -->
-          <img :src="getImgSrc(item.imgPath)" />
-        </div>
-      </div>
-    </div>
-    <!-- 如果需要分页器 -->
-    <div class="swiper-pagination-container" @click.stop >
-      <span v-show="showHF">
-        <div class="pagination-container">{{ pageNo }}/{{ total }}</div>
-        <div id="thumbs" :style="{ width: `${total * 1.45}rem`, maxWidth: '80%' }">
-          <div class="swiper-wrapper swiper-slides" >
-            <div v-for="index in swiperOptions.length" :key="index" class="swiper-slide swiper-slide">
-              {{ index }}
-            </div>
+
+    <p v-if="!deviceType" class="error-tag">提示：设备类型为找到，返回 <i @click="onReback" class="link">首页</i></p>
+    <p v-else-if="total <= 0" class="error-tag">
+      提示：暂无 <strong>{{ deviceType }}</strong> 产品手册，返回 <i @click="onReback" class="link">首页</i>
+    </p>
+    <template v-else>
+      <div id="main-swiper" class="swiper-container">
+        <div class="swiper-wrapper">
+          <div v-for="(item, index) in swiperOptions" :key="index" class="swiper-slide">
+            <img :src="getImgSrc(item.imgPath)" />
           </div>
         </div>
-      </span>
-    </div>
+      </div>
+      <!-- 如果需要分页器 -->
+      <div class="swiper-pagination-container" @click.stop >
+        <span v-show="showHF">
+          <div class="pagination-container">{{ pageNo }}/{{ total }}</div>
+          <div id="thumbs" :style="{ width: `${total * 1.45}rem`, maxWidth: '80%' }">
+            <div class="swiper-wrapper swiper-slides" >
+              <div v-for="index in swiperOptions.length" :key="index" class="swiper-slide swiper-slide">
+                {{ index }}
+              </div>
+            </div>
+          </div>
+        </span>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -41,15 +47,6 @@ export default {
       deviceType: '',
       showHF: false,
       pageNo: 1,
-      // swiperOptions: [
-      //   { value: '4g03', src: require('@/assets/device-2.png') },
-      //   { value: 'gw07', src: require('@/assets/device-2.png') },
-      //   { value: 'gw01', src: require('@/assets/device-2.png') },
-      //   { value: 'gw01', src: require('@/assets/device-2.png') },
-      //   { value: 'gw01', src: require('@/assets/device-2.png') },
-      //   { value: 'gw01', src: require('@/assets/device-2.png') },
-      //   { value: 'gw01', src: require('@/assets/device-2.png') },
-      // ],
     }
   },
   computed: {
@@ -129,6 +126,21 @@ export default {
   flex-direction: column;
   background: #777777;
   overflow-x: hidden;
+}
+
+.error-tag {
+  width: 100%;
+  background: #FFFFFF;
+  color: #666666;
+  font-size: 1rem;
+  font-weight: 600;
+  height: 60%;
+  padding: 20px;
+
+  .link {
+    cursor: pointer;
+    text-decoration:underline;
+  }
 }
 
 .reback-btn {

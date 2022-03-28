@@ -15,7 +15,7 @@
 
         <div class="device-list">
           <device-item-intro v-for="deviceType in deviceGroup3" :key="deviceType" :options="deviceIntros[deviceType]" class="dev-item"></device-item-intro>
-          <section class="device-item"></section>
+          <!-- <section class="device-item"></section> -->
         </div>
       </section>
     </div>
@@ -34,7 +34,7 @@ export default {
     return {
       deviceGroup1: ['4g01','4g02', '4g03'],
       deviceGroup2: ['gw01','gw02', 'gw03'],
-      deviceGroup3: ['4g05','gw05'],
+      deviceGroup3: ['4g05'],
     }
   },
   computed: {
