@@ -1,6 +1,7 @@
 <template>
   <section class="device-item">
-    <img :src="imgSrc" class="device-intro">
+    <!-- <img :src="imgSrc" class="device-intro"> -->
+    <img v-lazy="imgSrc" class="device-intro">
     <p>{{ options.tag1 }}<p>
     <p>{{ options.tag2 }}</p>
     <router-link :to="{ path: '/device-intro', query: { deviceType: options.value } }"><button class="btn">阅读</button></router-link>

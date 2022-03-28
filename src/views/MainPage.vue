@@ -24,11 +24,12 @@
 
 <script>
 import { deviceIntros } from '../devices/intro'
+import DeviceItemIntro from '../components/DeviceItemIntro'
 
 export default {
   name: 'Main',
   components: {
-    DeviceItemIntro: () => import('../components/DeviceItemIntro')
+    DeviceItemIntro
   },
   data() {
     return {

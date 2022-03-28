@@ -15,7 +15,8 @@
       <div id="main-swiper" class="swiper-container">
         <div class="swiper-wrapper">
           <div v-for="(item, index) in swiperOptions" :key="index" class="swiper-slide">
-            <img :src="getImgSrc(item.imgPath)" />
+            <!-- <img :src="getImgSrc(item.imgPath)" /> -->
+            <img v-lazy="getImgSrc(item.imgPath)" />
           </div>
         </div>
       </div>
@@ -150,7 +151,7 @@ export default {
   color: #FFFFFF;
   font-weight: 400;
   line-height: 1.5rem;
-  margin-top: 2rem;
+  margin: 2rem 0 1rem;
   .back-icon {
     width: 0.75rem;
     height: 1.5rem;
@@ -163,7 +164,6 @@ export default {
 .header-title {
   margin: 0;
   padding: 0;
-  margin-top: 1rem;
   text-align: center;
   font-size: 1.0625rem;
   color: #FFFFFF;
@@ -236,5 +236,15 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
+}
+
+@media screen and ( max-height: 736px ) {
+  .swiper-header, .swiper-pagination-container {
+    height: 5.5rem;
+  }
+
+  .reback-btn {
+    margin: 1.25rem 0 0.75rem;
+  }
 }
 </style>
